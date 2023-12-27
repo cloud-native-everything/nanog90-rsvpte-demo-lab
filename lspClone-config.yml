@@ -1,0 +1,14 @@
+pathJsonTemplate: 'pccLspTemplate.json'
+pathNamePrefix: 'pccLspCloneTest'
+profileId: 10102
+pathQty: 2
+groupIdFrom: 60
+destinationAddressIpv4: '1.1.1.2'
+sourceAddressIpv4: '1.1.1.1'
+sourceRouterAddressIpv4: '1.1.1.1'
+bootstrapServers: '10.2.16.11:9192'  # Requires port too
+topic: 'ns-eg-5715811f-3971-4890-b52d-f536e5a6c50e'
+partition: '0'
+sslCaLocation: 'truststore.pem'
+upThreshold: '90000' # aggregate-octets-periodic
+downThreshold: '1000'

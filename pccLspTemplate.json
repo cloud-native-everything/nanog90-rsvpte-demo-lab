@@ -1,0 +1,25 @@
+{
+    "nokia-conf:lsp" : {
+        "admin-state": "enable",
+        "egress-statistics": {
+            "admin-state": "enable"
+        },        
+        "lsp-name" : "test-lsp-pp-04",
+        "type" : "p2p-rsvp",
+        "from" : "10.10.10.3",
+        "to" : "10.10.10.8",
+        "pce-control" : "true",
+        "pce-report" : "true",
+        "path-computation-method" : "pce",
+        "metric-type" : "te",
+        "path-profile" : {
+            "profile-id" : "10101",
+            "path-group" : "10"
+        },
+        "primary" : {
+            "path-name" : "hopless"
+        }              
+
+    }
+
+}

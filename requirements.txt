@@ -1,0 +1,4 @@
+requests==2.31.0
+pyyaml==6.0.1
+prettytable==3.8.0
+confluent_kafka==2.2.0

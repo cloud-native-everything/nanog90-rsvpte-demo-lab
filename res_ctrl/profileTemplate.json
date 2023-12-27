@@ -1,0 +1,14 @@
+{
+    "data": {
+      "bidirection": "NO",
+      "disjoint": "LINK_STRICT",
+      "explicitRouteStrategy": "STANDARD",
+      "maxCost": 0,
+      "maxHops": 0,
+      "maxTeMetric": 0,
+      "name": "path_profile_1",
+      "objective": "STAR_WEIGHT",
+      "profileId": 1001,
+      "explicitRouteStrategyEcmpPreference": "ADJACENCY_SID"
+    }
+}
