@@ -136,7 +136,7 @@ class KafkaEventListener:
         #self.currentQty = self.currentQty - 1
         if self.currentQty > self.qty:
             if self.debug:
-                print(f"{datetime.now()} - DEBUG: my currentQty is {self.currentQty}. Adding a new path now")
+                print(f"{datetime.now()} - DEBUG: my currentQty is {self.currentQty}. Removing cloned path now")
             self.currentQty = _multiLspMgmt_delete(self.config, self.data, self.currentQty ,self.debug)
             if self.debug:
                 print(f"{datetime.now()} - DEBUG: my returned from _multiLspMgmt_[delete] function's currentQty is {self.currentQty}")             
