@@ -6,3 +6,4 @@ bin
 pyvenv.cfg
 .venv
 temp*
+*.pem
