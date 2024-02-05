@@ -18,8 +18,8 @@ class NetSup:
         url = f"https://{self.nsp_instance.server}:8545/{endpoint}"
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
-            'Content-Type': 'application/yang-data+json',
-            'Accept': 'application/yang-data+json'
+            'Accept': 'application/yang-data+json',
+            'Content-Type': 'application/yang-data+json'
         }
         if debug:
             print(f"DEBUG: Endpoint:\n{url}\nDEBUG: Headers:\n{headers}")
@@ -37,7 +37,8 @@ class NetSup:
 
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
-            'Content-type': 'application/json'
+            'Accept': 'application/yang-data+json',
+            'Content-Type': 'application/yang-data+json'
         }
         payload = json.dumps(data)
         if debug:
@@ -63,7 +64,8 @@ class NetSup:
 
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
-            'Content-type': 'application/json'
+            'Accept': 'application/yang-data+json',
+            'Content-Type': 'application/yang-data+json'
         }
         if debug:
             print(f"DEBUG: Endpoint:\n{url}\nDEBUG: Headers:\n{headers}")
@@ -81,19 +83,15 @@ class NetSup:
             raise Exception(f"Device is in configuration mode from other place. Access has been blocked")    
         else:
             raise Exception(f"Failed to retrieve {endpoint}. Status code: {response.status_code} {response.text}")
-
-
-    def get_pcc(self, neId, debug):
-        return self._get_yang_from_endpoint(f"restconf/data/network-device-mgr:network-devices/network-device={neId}/root/nokia-conf:/configure/router/pcep",debug)
     
-    def get_lsp(self, neId, debug):
-        return self._get_yang_from_endpoint(f"restconf/data/network-device-mgr:network-devices/network-device={neId}/root/nokia-conf:/configure/router=Base/mpls/lsp",debug)
+    def get_lsp(self, debug):
+        return self._get_yang_from_endpoint(f"restconf/data/ietf-te:te/tunnels",debug)
     
-    def post_lsp(self, neId, data, debug):
-        return self._post_data_to_endpoint(f"restconf/data/network-device-mgr:network-devices/network-device={neId}/root/nokia-conf:/configure/router=Base/mpls",data,debug)
+    def post_lsp(self, data, debug):
+        return self._post_data_to_endpoint(f"restconf/data/ietf-te:te/tunnels",data,debug)
     
-    def del_lsp(self, neId, lspName, debug):
-        return self._del_data_to_endpoint(f"restconf/data/network-device-mgr:/network-devices/network-device={neId}/root/nokia-conf:/configure/router=Base/mpls/lsp={lspName}",debug)
+    def del_lsp(self, lspName, debug):
+        return self._del_data_to_endpoint(f"restconf/data/ietf-te:te/tunnels/tunnel={lspName}",debug)
     
 
 

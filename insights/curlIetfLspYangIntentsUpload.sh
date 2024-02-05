@@ -58,6 +58,7 @@ main() {
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMSitePostProcessing.java"' \
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMSvcPostProcessing.java"' \
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMTunnelBindingHandler.java"' \
+  --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMTunnelBindingTrackingHandler.java"' \
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMEpPostProcessing.java"' \
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l2nm/L2NMEpTrackingHandler.java"' \
   --form 'file=@"'${PATH_TO_CONVERTED_MAPPING}'/l3nm/L3NMMapping.json"' \

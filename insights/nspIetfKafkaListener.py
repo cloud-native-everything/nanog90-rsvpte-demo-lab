@@ -6,8 +6,8 @@ import json
 
 # import classes or local functions
 
-from insights.nspMultiPccLspPaths import _multiLspMgmt_create
-from insights.nspMultiPccLspPaths import _multiLspMgmt_delete
+from insights.nspIetfMultiPccLspPaths import _multiLspMgmt_create
+from insights.nspIetfMultiPccLspPaths import _multiLspMgmt_delete
 
 
 
@@ -31,7 +31,7 @@ class KafkaEventListener:
         self.data = data
         self.qty = qty
         self.debug = debug
-        self.currentQty = _multiLspMgmt_create(config, data, qty ,debug)
+        self.currentQty = 0
 
         self.consumer = Consumer({
             'bootstrap.servers': self.bootstrap_servers,
@@ -41,6 +41,8 @@ class KafkaEventListener:
             'ssl.ca.location': self.ssl_ca_location
         })
         
+        self.lsp_usage_trigger_clone_creation()
+
         topic_partition = TopicPartition(self.topic, self.partition)
         self.consumer.assign([topic_partition])
 
@@ -126,7 +128,13 @@ class KafkaEventListener:
                 print(f"{datetime.now()} - DEBUG: my currentQty is {self.currentQty}. Adding a new path now")
             self.currentQty = _multiLspMgmt_create(self.config, self.data, self.currentQty ,self.debug)
             if self.debug:
-                print(f"{datetime.now()} - DEBUG: my returned from _multiLspMgmt_[create] function's currentQty is {self.currentQty}")             
+                print(f"{datetime.now()} - DEBUG: my returned from _multiLspMgmt_[create] function's currentQty is {self.currentQty}")
+        else:
+            while  self.currentQty <  self.qty:
+                self.currentQty = _multiLspMgmt_create(self.config, self.data, self.qty ,self.debug)
+
+
+
          
     def lsp_usage_trigger_clone_deletion(self):
         # Implement your event triggering logic here

@@ -6,7 +6,7 @@ import sys
 import argparse
 import json
 
-DEBUG = 1
+DEBUG = 0
 
 def post_pathProfiles_table(nsp_instance, data, debug):
     return nsp_instance.post_pathProfiles(data, debug) 
@@ -40,7 +40,7 @@ def main(args):
     else:
         print(f"ERROR: It has been an error creating profile {data['data']['name']}") 
     
-    # nsp.TerminateSession(auth_token)
+    nsp.nsp_instance.TerminateSession(debug=DEBUG)
     end = time.time()
     float_format = '{0:.2F}'
     print(f'Total time: {float_format.format(end - start)} seconds')

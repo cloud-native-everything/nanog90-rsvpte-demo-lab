@@ -7,7 +7,7 @@ import argparse
 import json
 
 #importing classes or other local functions
-from insights.nspKafkaListener import KafkaEventListener
+from insights.nspIetfKafkaListener import KafkaEventListener
 
 def start_app(_config, _data, _debug=0):
 
@@ -64,6 +64,8 @@ if __name__ == '__main__':
     try:
         with open(config['pathJsonTemplate'], 'r') as file:
             data = json.load(file)
+            if debug:
+                print(f"DEBUG: PCC LSP JSON Template: {data}")
     except Exception as e:
         print(f"Error reading data from file: {e}")
         exit()

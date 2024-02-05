@@ -1,5 +1,5 @@
-pathJsonTemplate: 'pccLspTemplate.json'
-pathNamePrefix: 'pccLspCloneTest'
+pathJsonTemplate: 'pccLspIetfTemplate.json'
+pathNamePrefix: 'pccLspIetfCloneTest'
 profileId: 1
 pathQty: 2
 groupIdFrom: 60
@@ -7,7 +7,7 @@ destinationAddressIpv4: '1.1.1.2'
 sourceAddressIpv4: '1.1.1.1'
 sourceRouterAddressIpv4: '1.1.1.1'
 bootstrapServers: '10.2.16.11:9192'  # Requires port too
-topic: 'ns-eg-c8505bf0-a000-4800-ae57-89aca06f8bc9'
+topic: 'ns-eg-5685c381-dc69-4d75-a2b7-c21420386740'
 partition: '0'
 sslCaLocation: 'truststore.pem'
 period: 60 #seconds

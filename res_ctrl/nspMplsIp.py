@@ -52,13 +52,14 @@ class MplsIp:
         if not verify:
             urllib3.disable_warnings(InsecureRequestWarning)    
 
-    def _get_data_from_endpoint(self, endpoint):
-        url = f"https://{self.nsp_instance.server}:8543/sdn/api/v4/{endpoint}"
+    def _get_data_from_endpoint(self, endpoint, debug):
+        url = f"https://{self.nsp_instance.server}/sdn/api/v4/{endpoint}"
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
             'Content-type': 'application/json'
         }
-        print(url,headers)
+        if debug:
+            print(url,headers)
         response = requests.get(url, headers=headers, verify=self.nsp_instance.verify)
 
         if response.status_code == 200:
@@ -70,7 +71,7 @@ class MplsIp:
         
 
     def _post_data_to_endpoint(self, endpoint, data, debug):
-        url = f"https://{self.nsp_instance.server}:8543/sdn/api/v4/{endpoint}"
+        url = f"https://{self.nsp_instance.server}/sdn/api/v4/{endpoint}"
 
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
@@ -91,7 +92,7 @@ class MplsIp:
         
 
     def _del_data_to_endpoint(self, endpoint, debug):
-        url = f"https://{self.nsp_instance.server}:8543/sdn/api/v4/{endpoint}"
+        url = f"https://{self.nsp_instance.server}/sdn/api/v4/{endpoint}"
 
         headers = {
             'Authorization': f'Bearer {self.auth_token}',
@@ -109,32 +110,32 @@ class MplsIp:
             raise Exception(f"Failed to retrieve {endpoint}. Status code: {response.status_code} {response.text}")
 
 
-    def get_lspPaths(self, filter):
+    def get_lspPaths(self, filter, debug):
         if not filter:
-            return self._get_data_from_endpoint("mpls/lsp-paths")
+            return self._get_data_from_endpoint("mpls/lsp-paths",debug)
         if filter == '*':
-            return self._get_data_from_endpoint("mpls/lsp-paths")
+            return self._get_data_from_endpoint("mpls/lsp-paths",debug)
         else:
-            return self._get_data_from_endpoint(f"mpls/lsp-paths?{filter}")
+            return self._get_data_from_endpoint(f"mpls/lsp-paths?{filter}",debug)
 
-    def get_lsps(self, filter):
+    def get_lsps(self, filter, debug):
         if not filter:
-            return self._get_data_from_endpoint("mpls/lsps")
+            return self._get_data_from_endpoint("mpls/lsps", debug)
         if filter == '*':
-            return self._get_data_from_endpoint("mpls/lsps")
+            return self._get_data_from_endpoint("mpls/lsps",debug)
         else:
-            return self._get_data_from_endpoint(f"mpls/lsps?{filter}")
+            return self._get_data_from_endpoint(f"mpls/lsps?{filter}",debug)
     
-    def get_pathProfiles(self, filter):
+    def get_pathProfiles(self, filter,debug):
         if not filter:
-            return self._get_data_from_endpoint("template/path-profiles")
+            return self._get_data_from_endpoint("template/path-profiles",debug)
         if filter == '*':
-            return self._get_data_from_endpoint("template/path-profiles")
+            return self._get_data_from_endpoint("template/path-profiles",debug)
         else:
-            return self._get_data_from_endpoint(f"template/path-profiles?{filter}")        
+            return self._get_data_from_endpoint(f"template/path-profiles?{filter}",debug)        
 
-    def get_links(self):
-        return self._get_data_from_endpoint("nsp/net/l3/networks")
+    def get_links(self,debug):
+        return self._get_data_from_endpoint("nsp/net/l3/networks",debug)
        
         
 

@@ -1,0 +1,11 @@
+{
+    "tunnel": {
+        "name": "LSP2",
+        "encoding": "ietf-te-types:lsp-encoding-packet",
+        "admin-state": "ietf-te-types:tunnel-admin-state-up",
+        "bidirectional": "true",
+        "signaling-type": "ietf-te-types:path-setup-rsvp",
+        "source": "1.1.1.1",
+        "destination": "1.1.1.2"
+    }
+}    

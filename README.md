@@ -1,11 +1,18 @@
-# NSP LSP Cloning PCC Init
+
+
+# Automation Driven Traffic Steering (NSP LSP Cloning PCC Init App)
 
 ## Introduction
 
-This app demonstrates the vital role of APIs in Network Service Platforms, showcasing their capability to mitigate and enhance automation gaps in Network IP technologies from diverse vendors, while affording customers the flexibility to employ their preferred programming language.
+Inventive alternative with Python, involving API calls with systems like Telemetry and PCE controller, illustrated through a hands-on lab using containerlab.
 
-TE++ emerges as an early-demanding technology in Wide Area Networks (WAN) designed to enhance the management and closure of Label Switched Paths (LSPs) in WAN environments, specifically under RSVP-TE or Segment Routing (SR) protocols. Despite not being recognized as an official IETF standard, several vendors have begun crafting bespoke versions to cater to specific customer needs.
-One might wonder about its impact on networks that are either currently utilizing a Path Computation Element (PCE) or intending to incorporate it for its advantages. 
+Showcase an enhanced Label Switched Paths (LSP) management use case that can solve the unpredictable pattern of today’s traffic demand in WAN environments.
+
+This app demonstrates the vital role of APIs in SDN solution like Network Service Platforms, showcasing their capability to mitigate and enhance automation gaps in Network IP technologies from diverse vendors, while affording customers the flexibility to employ their preferred programming language. 
+
+This is part of a Tutorial presented in NANOG90, and includes two types of YANG models for the APIs and LSP definitions:
+* IETF-TE YANG Model (draft-ietf-teas-yang-te-35) to define PCC Init LSPs PCE controlled. This APIs is presented via NSP using its Automation Framework.
+* Nokia YANG for RSVP-TE Tunnels
 
 We will present a solution sample of how we can provide an enhanced approach using NSP APIs and its Path Compotation features.
 
@@ -13,14 +20,14 @@ We will present a solution sample of how we can provide an enhanced approach usi
 Nokia NSP (Network Service Platform) is a solid platform with various applications, and one of them is the IP/MPLS Optimization app. This app provides powerful features like PCE (Path Computation Element) for managing and optimizing IP/MPLS networks efficiently. This repository focuses on developing Python applications that leverage the NSP IP/MPLS Optimization app's capabilities to create and delete multiple PCC initiated LSPs (Label Switched Paths) of the RSVP type via RESTCONF APIs and Module Driven capabilities of NSP. Those paths will be PCE controlled adding the required configurations to make this work via Path profiles defined in the MPLS/IP Optimization NSP App. Additionally, it includes applications to retrieve information and manage objects such as Path Profiles or individual LSPs using REST/RESTCONF APIs.
 
 Note: This has been tested with the following versions
-* NSP 23.8 and vSR 23.3.R3 (containerized vSIM in containerlab)
+* NSP 23.11 and vSR 23.7.R1 (containerized vSR in containerlab 0.45.1)
 
 ## Installation
 
 To use the Nokia NSP IP/MPLS Optimization Python Apps, follow these steps:
 
-1. Clone this repository to your local machine using `git clone https://github.com/cloud-native-everything/nsp-python-pcc-initiated-paths`
-2. Install the required dependencies by running `pip install -r requirements.txt` (create your own virtual env is highly recommended)
+1. Clone this repository to your local machine using `git clone https://github.com/cloud-native-everything/nanog90-rsvpte-demo-lab`
+2. Install the required dependencies by running(create your own virtual env is highly recommended) `pip3 install -r requirements.txt` 
 
 ## Setup
 ### Create and Activate Virtual Environment
@@ -92,57 +99,9 @@ cd res_ctrl
 Using this id, you can delete the profile using `./nsp-delProfile.py --UUID c145e9fa-d3fe-428b-b594-c4a0ad911cc9`
 
 
-## Create Multiple Paths
-
-![LSP list in IP/MPLS Optimization App in NSP](images/nokia_nsp_pce_controller_lsp_cloning.png)
-
-To create multiple paths at once, you can use the following YAML file to define the necessary parameters:
-
-```yaml
-pathJsonTemplate: 'pccLspTemplate.json'
-pathNamePrefix: 'pccRsvpMauPath'
-pathQty: 4
-groupIdFrom: 50
-destinationAddressIpv4: '10.10.10.8'
-sourceAddressIpv4: '10.10.10.3'
-sourceRouterAddressIpv4: '10.10.10.3'
-```
-
-Let's break down each element in the YAML file:
-
-- `pathJsonTemplate`: This field specifies the path to a JSON template file (`pccLspTemplate.json`) that contains the structure and configuration of the paths you want to create. The template file defines the various parameters and settings required for each individual path.
-
-- `pathNamePrefix`: This element represents the prefix for the names of the paths that will be created. Each path will have a unique name based on this prefix, and an index will be appended to it to distinguish between different paths.
-
-- `pathQty`: The number of paths to create. This value indicates the total quantity of paths that will be generated using the provided JSON template.
-
-- `groupIdFrom`: This field specifies the starting value for the Group ID of the paths. As each couple of paths is created, its Group ID will increment from this starting value.
-
-- `destinationAddressIpv4`: The IPv4 address of the destination for the paths. This IP address will be used as the destination for each of the created paths.
-
-- `sourceAddressIpv4`: The IPv4 address of the source for the paths. This IP address will be used as the source for each of the created paths.
-
-- `sourceRouterAddressIpv4`: The IPv4 address of the source router for the paths. This IP address will be used as the source router for each of the created paths.
-
-By providing this YAML file with the relevant information, you can create multiple paths in one go based on the JSON template and configurations specified in `pathTemplate.json`.
-
-### Example of use
-
-Using the same YAML file provided before, we would create the path with the commmad as follow:
-
-```bash
-./nsp-multiLspPaths.py --datafile multiPccLspPath.yml --create
-```
-Then, you will able to see those path directly in NSP GUI
-![LSP Paths and used topology](images/nokia_nsp_pce_controller_tolopogy_lsp_cloning.png)
-
-
-## Advanced LSP Cloning
+## Starting the App fo Advanced LSP Cloning
 <b>Important: This is still work in progress and is intended only for a demonstration of how APIs work, use it under your own risk!</b>
 
-There are some important requirement you need to meet in advance to start this process:
-* Create one or more LSPs for the set that will be use for the cloning. You can use the Multiple Paths App in the previous section. Don't forget to enable egress stats for the LSPs (we have already that defined in the pcc lsp JSON template)
-![pcc lsp path json template](images/nokia_nsp_lsp_cloning_json_template.png )
 * The, you need to create the subcription using Insight Manager as it show on the next picture. This stat will be pull using kafka a python function.
 * In order to use the kafka function, you will have to export the Kafka CA certiticate (it's located in the pod) to a PEM format. You can work it like the following:
 ```bash
@@ -152,16 +111,6 @@ sudo dnf -y install java-11-openjdk-headless
 keytool -importkeystore -srckeystore kafka.truststore.jks -srcstorepass $TRUST_PASS -srcstoretype JKS -destkeystore truststore.p12 -deststoretype PKCS12 -deststorepass $TRUST_PASS
 openssl pkcs12 -in truststore.p12 -nokeys -out truststore.pem -passin pass:$TRUST_PASS
 ```
-* You might test kafka connection and the subcription in advance using insights/nsp-kafkaMsgs.py App (you need ste the parameters inside the python file, and do not forget to have the certiticate file location on hand)
-```python
-def main():
-    bootstrap_servers = '10.2.16.11:9192'
-    group_id = 'my-group'
-    ssl_ca_location = 'truststore.pem'
-    topic = 'ns-eg-5715811f-3971-4890-b52d-f536e5a6c50e'
-    partition = 0
-```
-* Finally set your YAML file for the configuration. More details on the next section
 
 ### How-to
 To start the cloning process, you can use the following YAML file to define the necessary parameters:
@@ -256,3 +205,20 @@ Do not forget hit a star. Don't hesitate to contact me if you need help.
 The following are only proposals for next steps. Let us know if you want to collaborate.
 
 
+# Disclaimer
+
+**Note:** The code and information provided in this repository are for educational and informational purposes only. By using any code, scripts, or information from this repository, you agree that:
+
+1. **No Warranty**: The code is provided "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. 
+
+2. **No Liability**: In no event shall the author(s) or the employer(s) be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services, loss of use, data, or profits, or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+
+3. **Use at Your Own Risk**: The use of code and information from this repository is entirely at your own risk. You are solely responsible for any technical or financial consequences that may result from using this code.
+
+4. **Compliance**: You are responsible for ensuring that your use of the code complies with all relevant laws, regulations, and ethical standards.
+
+5. **No Support**: The author(s) and the employer(s) are not obligated to provide any support or assistance related to the code or its usage.
+
+Please exercise caution and due diligence when using the code and information provided in this repository. Always thoroughly review and test any code before using it in production environments. This disclaimer is subject to change without notice. By using the code and information in this repository, you acknowledge and agree to this disclaimer.
+
+If you do not agree with this disclaimer, do not use the code or information provided in this repository.
